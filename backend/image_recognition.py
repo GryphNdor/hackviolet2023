@@ -39,10 +39,11 @@ def imagedown(url, folder):
             print('Writing: ', name)
         renamed = pathlib.Path('backend/output/' + str(count) + '.jpg')
         bettername.rename(renamed)
-        count += 1      
+        count += 1
+    return count+1  
 
 #example function call 
-imagedown("https://www.britannica.com/technology/computer", 'output')
+images = imagedown("https://www.britannica.com/technology/computer", 'output')
 
 # load real image
 img_bgr = face_recognition.load_image_file('backend/real_linus.jpg')
@@ -71,15 +72,17 @@ face = face_recognition.face_locations(img_modi)[0]
 train_encode = face_recognition.face_encodings(img_modi)[0]
 
 #----- lets test an image
-test = face_recognition.load_image_file('backend/fake_linus.jpg')
-test = cv2.cvtColor(test, cv2.COLOR_BGR2RGB)
-test_encode = face_recognition.face_encodings(test)[0]
-found = face_recognition.compare_faces([train_encode],test_encode)
-if(found):
-    print("the image has been found")
-else:
-    print("the image has not been found")
-cv2.rectangle(img_modi, (face[3], face[0]),(face[1], face[2]), (255,0,255), 1)
-if(debug):
-    cv2.imshow('Fake', test)
-cv2.waitKey(0)
+
+for x in range(images):
+    test = face_recognition.load_image_file('backend/output/'+str(x)+'.jpg')
+    test = cv2.cvtColor(test, cv2.COLOR_BGR2RGB)
+    test_encode = face_recognition.face_encodings(test)[0]
+    found = face_recognition.compare_faces([train_encode],test_encode)
+    if(found):
+        print("the image has been found")
+    else:
+        print("the image has not been found")
+    cv2.rectangle(img_modi, (face[3], face[0]),(face[1], face[2]), (255,0,255), 1)
+    if(debug):
+        cv2.imshow('Fake', test)
+    cv2.waitKey(0)
