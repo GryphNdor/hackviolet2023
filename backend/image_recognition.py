@@ -10,6 +10,20 @@ import glob
 # debug flag
 debug = True
 
+### Get a list of links from google
+try:
+    from googlesearch import search
+except ImportError:
+    print("No module named 'google' found")
+ 
+def searchgoogle(query):
+    links = []
+    for j in search(query, tld="co.in", num=10, stop=10, pause=2):
+        links.append(j)
+    return links
+
+ 
+
 #takes in a url and a folder name and downloads all the images from the url to the folder
 def imagedown(url, folder):
     try:
@@ -36,7 +50,7 @@ def imagedown(url, folder):
         renamed = pathlib.Path('backend/output/' + str(count) + '.jpg')
         bettername.rename(renamed)
         count += 1
-            
+searchgoogle("linux torvalds")            
 
 #example function call 
 imagedown("https://www.britannica.com/animal/chicken", 'output')
