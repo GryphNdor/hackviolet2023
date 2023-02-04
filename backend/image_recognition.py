@@ -5,24 +5,14 @@ import pathlib
 import requests
 from bs4 import BeautifulSoup
 import os 
+import shutil
 import glob
 
 # debug flag
-debug = True
+debug = True 
 
-### Get a list of links from google
-try:
-    from googlesearch import search
-except ImportError:
-    print("No module named 'google' found")
- 
-def searchgoogle(query):
-    links = []
-    for j in search(query, tld="co.in", num=10, stop=10, pause=2):
-        links.append(j)
-    return links
-
- 
+shutil.rmtree('backend/output')
+os.mkdir('backend/output') 
 
 #takes in a url and a folder name and downloads all the images from the url to the folder
 def imagedown(url, folder):
@@ -49,19 +39,18 @@ def imagedown(url, folder):
             print('Writing: ', name)
         renamed = pathlib.Path('backend/output/' + str(count) + '.jpg')
         bettername.rename(renamed)
-        count += 1
-searchgoogle("linux torvalds")            
+        count += 1      
 
 #example function call 
-imagedown("https://www.britannica.com/animal/chicken", 'output')
+imagedown("https://www.britannica.com/technology/computer", 'output')
 
 # load real image
-img_bgr = face_recognition.load_image_file('real_linus.jpg')
+img_bgr = face_recognition.load_image_file('backend/real_linus.jpg')
 img_rgb = cv2.cvtColor(img_bgr,cv2.COLOR_BGR2RGB)
 cv2.waitKey
 
 # color map
-img_modi=face_recognition.load_image_file('real_linus.jpg')
+img_modi=face_recognition.load_image_file('backend/real_linus.jpg')
 img_modi_rgb = cv2.cvtColor(img_modi,cv2.COLOR_BGR2RGB)
 #--------- Detecting Face -------
 face = face_recognition.face_locations(img_modi_rgb)[0]
@@ -72,7 +61,7 @@ if(debug):
     cv2.imshow('Original_Detected', copy)
 cv2.waitKey
 
-img_modi = face_recognition.load_image_file('real_linus.jpg')
+img_modi = face_recognition.load_image_file('backend/real_linus.jpg')
 img_modi = cv2.cvtColor(img_modi,cv2.COLOR_BGR2RGB)
 
 #------to find the face location
@@ -82,7 +71,7 @@ face = face_recognition.face_locations(img_modi)[0]
 train_encode = face_recognition.face_encodings(img_modi)[0]
 
 #----- lets test an image
-test = face_recognition.load_image_file('fake_linus.jpg')
+test = face_recognition.load_image_file('backend/fake_linus.jpg')
 test = cv2.cvtColor(test, cv2.COLOR_BGR2RGB)
 test_encode = face_recognition.face_encodings(test)[0]
 found = face_recognition.compare_faces([train_encode],test_encode)
