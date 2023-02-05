@@ -25,6 +25,7 @@ class FileHandler(Resource):
         args = parse.parse_args()
         image_file = args['file']
         image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_file.filename))
+        name = args['name']
 
 
 api.add_resource(FileHandler, '/submit', endpoint='submit')
