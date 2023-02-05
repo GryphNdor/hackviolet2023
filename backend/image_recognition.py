@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import os 
 import shutil
 import glob
+import reader
 
 # debug flag
 debug = True
@@ -109,6 +110,7 @@ def runAnalysis():
     with open('backend/static/name.txt') as f:
         name = f.readline()
     moveImages(name)
+    reader.movethatfile()
     currentCount = 0
     for x in range(1,20):
         currentCount = verifyImages(x, currentCount)
