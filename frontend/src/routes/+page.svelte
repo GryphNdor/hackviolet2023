@@ -11,11 +11,11 @@
 
 	import logo from "$lib/images/logo.svg";
 
-	import tomas from "$lib/images/tomas.jpg";
+	import tomas from "$lib/images/tom.jpg";
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>face.report</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
@@ -48,7 +48,7 @@
 </section>
 
 <section id="problem">
-	<div>
+	<div class="text">
 		<h1>The Problem</h1>
 		<p>
 			In today's technological landscape, it is not unlikely of to find unwanted
@@ -59,7 +59,7 @@
 			only grows, requiring a soluton.
 		</p>
 	</div>
-	<img src={tomas} alt="tom" width="300" height="300" />
+	<img class="tom" src={tomas} alt="tom" />
 </section>
 
 <section id="protect">
@@ -115,12 +115,12 @@
 		align-items: center;
 	}
 	#main .title {
-		font-size: 70px;
+		font-size: 80px;
 		margin: 0;
 		padding: 0;
 	}
 	#main h2 {
-		width: 70%;
+		font-size: 36px;
 	}
 
 	#quote {
@@ -137,11 +137,18 @@
 	}
 
 	#problem {
-		height: 50vh;
+		height: 70vh;
 		display: flex;
-		justify-content: center;
-		align-items: flex-start;
-		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+		flex-direction: row;
+	}
+
+	.tom {
+		filter: grayscale(1);
+		min-width: 200px;
+		border: 5px solid #ffff;
+		border-radius: 5px;
 	}
 
 	#problem p {
@@ -203,6 +210,7 @@
 		font-size: 45px;
 	}
 	.scroll-container {
+		padding-top: 25px;
 		display: flex;
 		align-items: center;
 		font-size: 2rem;
@@ -291,20 +299,46 @@
 	}
 
 	button {
-		display: flex;
-		outline: none;
-		border: none;
-		font-size: 20px;
-		color: var(--color-bg-0);
-		font-weight: bold;
+		display: inline-block;
+		padding: 0.75rem 1.25rem;
 		border-radius: 10px;
-		padding: 20px;
-		align-items: center;
-		justify-content: center;
-		background-color: var(--color-bg-1);
-	}
-
-	button:hover {
-		filter: brightness(80%);
+		color: #000;
+		border: none;
+		text-transform: uppercase;
+		font-weight: bold;
+		font-size: 1rem;
+		transition: all 0.3s;
+		position: relative;
+		overflow: hidden;
+		z-index: 1;
+		&:after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #87ceeb;
+			border-radius: 10px;
+			z-index: -2;
+		}
+		&:before {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 0%;
+			height: 100%;
+			background-color: darken(#87ceeb, 15%);
+			transition: all 0.3s;
+			border-radius: 10px;
+			z-index: -1;
+		}
+		&:hover {
+			color: #fff;
+			&:before {
+				width: 100%;
+			}
+		}
 	}
 </style>
