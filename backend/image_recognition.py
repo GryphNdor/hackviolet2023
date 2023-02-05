@@ -24,13 +24,15 @@ os.mkdir('backend/data')
 def moveImages(name):
     filteredname = name.replace('+','').replace(' ','')
     for w in range(1,20):
-        try:
+        path = pathlib.Path("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpeg')
+        if (path.is_file()):
             os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpeg', 'backend/output/' + str(w) + '.jpeg' )
-        except:
-            try:
-                os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.png', 'backend/output/' + str(w) + '.png' )
-            except:
-                os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpg', 'backend/output/' + str(w) + '.jpg' )
+        path = pathlib.Path("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.png')
+        if (path.is_file()):
+            os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.png', 'backend/output/' + str(w) + '.png' )
+        path = pathlib.Path("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpg')
+        if (path.is_file()):
+            os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpg', 'backend/output/' + str(w) + '.jpg' )
 
 # verify individual image
 def verifyImages(index,currentCount):
@@ -104,7 +106,7 @@ def findImage(index):
     cv2.waitKey
 
 def runAnalysis():
-    moveImages('Alec+Neps')
+    moveImages('Brian+Lee')
     currentCount = 0
     for x in range(1,20):
         currentCount = verifyImages(x, currentCount)
