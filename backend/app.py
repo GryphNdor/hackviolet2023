@@ -4,6 +4,7 @@ from flask_restful import Resource, Api, reqparse
 import werkzeug
 
 import os
+from pathlib import Path
 
 app = Flask(__name__)
 CORS(app, origin="*", allow_headers=[
@@ -30,11 +31,14 @@ class FileHandler(Resource):
 
         return jsonify({"response": "success"})
 
-    def get(self, path):
-        try:
-            return send_from_directory("./data", path, as_attachment=True)
-        except FileNotFoundError:
-            abort(404)
+    def get(self):
+        # try:
+        #     return send_from_directory("./data", "0.jpeg", as_attachment=True)
+        # except FileNotFoundError:
+        #     abort(404)
+        files = os.listdir('/data')
+        return files
+
 
 api.add_resource(FileHandler, '/submit', endpoint='submit')
 api.add_resource(FileHandler, '/data', endpoint='data')
