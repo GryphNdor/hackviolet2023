@@ -7,7 +7,10 @@
 
   let images = [];
 
+  export let previewImg;
+
   let uploaded = false;
+  let fetched = false;
 
   async function postData() {
     let data = new FormData();
@@ -22,7 +25,12 @@
       body: data,
     });
     let disp = await res.json();
-    console.log(disp.response);
+
+    for (let key of Object.keys(disp)) {
+      images.push({ url: key, val: disp[key] });
+    }
+
+    fetched = true;
   }
 </script>
 
@@ -43,18 +51,10 @@
 </section>
 
 <section id="submission">
-  {#if images.length == 0}
+  {#if fetched == false}
     <form id="myform" on:submit={postData}>
       <div use:clicked on:click={() => (uploaded = true)} class="photo">
-        {#if uploaded}
-          <div class="camera" style="color:green">
-            <FaCheckCircle />
-          </div>
-        {:else}
-          <div class="camera">
-            <FaCamera />
-          </div>
-        {/if}
+        <img id="preview" />
       </div>
       <h1 class="documentID" />
       <input id="upload" type="file" accept="image/jpeg" />
@@ -72,18 +72,17 @@
     <div class="grid-container">
       <!--do not read without headache meds-->
       {#each images as image, index}
-        <div class="item1">
-          <div>
-            <h4>images.title</h4>
-            <h5>Found?</h5>
-          </div>
-          <img
-            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F1f%2F62%2F96%2F1f629677804018c02f9e4369aace6012.jpg&f=1&nofb=1&ipt=41925177dc0d4fe12b118e825ec7f8a5cd39958241aa98205a7805f27609c3f5&ipo=images"
-          />
+        <div class={image.val === "true\n" ? "true" : "false"}>
+          <img src={image.url} />
         </div>
       {/each}
     </div>
-    <button on:click={() => (images = [])}>Reset</button>
+    <button
+      on:click={() => {
+        images = [];
+        fetched = false;
+      }}>Reset</button
+    >
   {/if}
 </section>
 
@@ -102,10 +101,6 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-  }
-
-  input[type="file"] {
-    opacity: 0;
   }
 
   button {
@@ -162,7 +157,6 @@
   }
 
   .grid-container > div {
-    background-color: lightgray;
     display: flex;
     padding: 10px;
     justify-content: space-around;
@@ -193,6 +187,13 @@
     flex-direction: column;
   }
 
+  .true {
+    background-color: green;
+  }
+  .false {
+    background-color: red;
+  }
+
   input[type="text"] {
     width: 300px;
     border: none;
@@ -211,6 +212,11 @@
     height: 300px;
     border: 5px dashed white;
     border-radius: 20px;
+    img {
+      width: 300px;
+      height: 300px;
+      z-index: 1;
+    }
   }
 
   .camera {

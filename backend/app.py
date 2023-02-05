@@ -29,15 +29,21 @@ class FileHandler(Resource):
         with open(app.config["UPLOAD_FOLDER"]+"/name.txt", "w") as f:
             f.write(name);
 
-        return jsonify({"response": "success"})
+        fileDict = {}
 
-    def get(self):
-        # try:
-        #     return send_from_directory("./data", "0.jpeg", as_attachment=True)
-        # except FileNotFoundError:
-        #     abort(404)
-        files = os.listdir('/data')
-        return files
+        urls = []
+        truths = []
+
+        with open('truthtable.txt', 'r') as file:
+            truths = file.readlines() 
+
+        with open('allURLS.txt', 'r') as file:
+            urls = file.readlines() 
+        
+        for i in range(len(urls) -1):
+            fileDict[urls[i]] = truths[i]
+
+        return fileDict
 
 
 api.add_resource(FileHandler, '/submit', endpoint='submit')
