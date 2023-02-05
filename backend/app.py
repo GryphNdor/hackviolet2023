@@ -2,6 +2,7 @@ from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS, cross_origin
 from flask_restful import Resource, Api, reqparse
 import werkzeug
+import subprocess
 
 import os
 from pathlib import Path
@@ -25,9 +26,7 @@ class FileHandler(Resource):
         image_file = args['file']
         image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'image.jpeg'))
         name = args['name']
-        with open(os.path.join(app.config['UPLOAD_FOLDER'], 'name.txt'), 'w') as file:
-            file.write(name)
-        
+        subprocess.run(["./setup.sh",name])
 
         return jsonify({"response": "success"})
 

@@ -5,6 +5,8 @@
 
   let name = "";
 
+  let images: string[] = ["a", "b", "b", "a", "b", "b"];
+
   let uploaded = false;
 
   async function postData() {
@@ -36,50 +38,61 @@
 </section>
 
 <section id="submission">
-  <form id="myform" on:submit={postData}>
-    <div use:clicked on:click={() => (uploaded = true)} class="photo">
-      {#if uploaded}
-        <div class="camera" style="color:green">
-          <FaCheckCircle />
-        </div>
-      {:else}
-        <div class="camera">
-          <FaCamera />
-        </div>
-      {/if}
-    </div>
-    <h1 class="documentID" />
-    <input
-      on:change={(e) => (image = e.currentTarget.files)}
-      id="upload"
-      type="file"
-      accept="image/jpeg"
-    />
-    <div class="textinput">
-      <label for="textbox">Your Name</label>
+  {#if images.length == 0}
+    <form id="myform" on:submit={postData}>
+      <div use:clicked on:click={() => (uploaded = true)} class="photo">
+        {#if uploaded}
+          <div class="camera" style="color:green">
+            <FaCheckCircle />
+          </div>
+        {:else}
+          <div class="camera">
+            <FaCamera />
+          </div>
+        {/if}
+      </div>
+      <h1 class="documentID" />
       <input
-        on:input={(e) => (name = e.currentTarget.value)}
-        id="textbox"
-        type="text"
+        on:change={(e) => (image = e.currentTarget.files)}
+        id="upload"
+        type="file"
+        accept="image/jpeg"
       />
+      <div class="textinput">
+        <label for="textbox">Your Name</label>
+        <input
+          on:input={(e) => (name = e.currentTarget.value)}
+          id="textbox"
+          type="text"
+        />
+      </div>
+    </form>
+    <button form="myform" type="submit">Submit</button>
+  {:else}
+    <div class="grid-container">
+      <!--do not read without headache meds-->
+      {#each images as image, index}
+        <div class="item1">
+          <div>
+            <h4>images.title</h4>
+            <h5>Found?</h5>
+          </div>
+          <img
+            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F1f%2F62%2F96%2F1f629677804018c02f9e4369aace6012.jpg&f=1&nofb=1&ipt=41925177dc0d4fe12b118e825ec7f8a5cd39958241aa98205a7805f27609c3f5&ipo=images"
+          />
+        </div>
+      {/each}
     </div>
-  </form>
-  <button form="myform" type="submit">Submit</button>
-</section>
-
-<section>
-  <!--do not read without headache meds-->
-  <div class="item1">
-    <img style="border-radius:15px;" width="300" height="300" />
-  </div>
+    <button on:click={() => (images = [])}>Reset</button>
+  {/if}
 </section>
 
 <style lang="scss">
   #title {
-    height: 30vh;
+    height: 20vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     flex-direction: column;
     text-align: center;
   }
@@ -87,6 +100,7 @@
   #submission {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
   }
 
@@ -141,25 +155,29 @@
 
   .grid-container {
     display: grid;
-    grid-template-areas: "box1 box2";
-    gap: 70px;
-    background-color: var(--color-bg-1);
-    padding-left: 80px;
-    padding-right: 90px;
-    padding-bottom: 30px;
+    grid-template-columns: repeat(3, 1fr);
     border-radius: 15px;
+    gap: 10px;
+    margin-top: 50px;
   }
 
   .grid-container > div {
-    background-color: var(--color-bg-0);
-    text-align: left;
-    padding-top: 30px;
-    padding-right: 30px;
-    padding-bottom: 30px;
-    padding-left: 30px;
+    background-color: lightgray;
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+    align-items: center;
     font-size: 25px;
-    color: #ffff;
+    height: 200px;
+    color: #000;
     border-radius: 15px;
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+
+    img {
+      border-radius: 5px;
+      max-width: 120px;
+      max-height: 120px;
+    }
   }
 
   label {

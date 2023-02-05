@@ -1,3 +1,6 @@
-#for each file in 'backend/data, return a static reference to the file
-def returnfilelist(direectory):
-    
+import os
+import shutil
+def movethatfile():
+    os.chdir("Google-Image-Scraper")
+    #copy the file writeme.txt to the file of the same name in backend
+    shutil.copy("writeme.txt", "backend/output/allURLS.txt")
