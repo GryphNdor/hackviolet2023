@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 import os 
 import shutil
 import glob
-import reader
 
 # debug flag
 debug = True
@@ -24,16 +23,14 @@ os.mkdir('backend/data')
 # move images from directory and renames them
 def moveImages(name):
     filteredname = name.replace('+','').replace(' ','')
-    for w in range(1,20):
-        path = pathlib.Path("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpeg')
-        if (path.is_file()):
+    for w in range(10):
+        try:
             os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpeg', 'backend/output/' + str(w) + '.jpeg' )
-        path = pathlib.Path("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.png')
-        if (path.is_file()):
-            os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.png', 'backend/output/' + str(w) + '.png' )
-        path = pathlib.Path("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpg')
-        if (path.is_file()):
-            os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpg', 'backend/output/' + str(w) + '.jpg' )
+        except:
+            try:
+                os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.png', 'backend/output/' + str(w) + '.png' )
+            except:
+                os.rename("Google-Image-Scraper/photos/" + name +'/'+filteredname + str(w) + '.jpg', 'backend/output/' + str(w) + '.jpg' )
 
 # verify individual image
 def verifyImages(index,currentCount):
@@ -60,12 +57,12 @@ def verifyImages(index,currentCount):
     return currentCount
 
 # load real image
-img_bgr = face_recognition.load_image_file('backend/static/image.jpeg')
+img_bgr = face_recognition.load_image_file('backend/static/image.jpg')
 img_rgb = cv2.cvtColor(img_bgr,cv2.COLOR_BGR2RGB)
 cv2.waitKey
 
 # color map
-img_modi=face_recognition.load_image_file('backend/static/image.jpeg')
+img_modi=face_recognition.load_image_file('backend/static/image.jpg')
 img_modi_rgb = cv2.cvtColor(img_modi,cv2.COLOR_BGR2RGB)
 
 # detect face
@@ -78,7 +75,7 @@ if(debug):
 cv2.waitKey
 # load face to compare
 
-img_modi = face_recognition.load_image_file('backend/static/image.jpeg')
+img_modi = face_recognition.load_image_file('backend/static/image.jpg')
 img_modi = cv2.cvtColor(img_modi,cv2.COLOR_BGR2RGB)
 
 # find vectors
@@ -110,15 +107,13 @@ def runAnalysis():
     with open('backend/static/name.txt') as f:
         name = f.readline()
     moveImages(name)
-    reader.movethatfile()
     currentCount = 0
-    for x in range(1,20):
+    for x in range(10):
         currentCount = verifyImages(x, currentCount)
     for y in range(currentCount):
         findImage(y)
     # wait on done
     cv2.waitKey(0)
-
     
 
 runAnalysis()
