@@ -1,28 +1,34 @@
-from flask import Flask, render_template, request
-from werkzeug.utils import secure_filename
+from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
+from flask_restful import Resource, Api, reqparse
+import werkzeug
+
+import os
+import json
 
 app = Flask(__name__)
+CORS(app, origin="*", allow_headers=[
+    "Content-Type", "Authorization", "Access-Control-Allow-Origin"],
+    supports_credentials=True)
+api = Api(app)
 
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["UPLOAD_FOLDER"] = "static/"
 
-@app.route('/')
-def upload_file():
-    return render_template('index.html')
+todos = {}
+
+class FileHandler(Resource):
+    def post(self):
+
+        parse = reqparse.RequestParser()
+        parse.add_argument('file', type=werkzeug.datastructures.FileStorage, location='files')
+        args = parse.parse_args()
+        image_file = args['file']
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_file.filename))
 
 
-@app.route('/display', methods = ['GET', 'POST'])
-def save_file():
-    if request.method == 'POST':
-        f = request.files['file']
-        filename = secure_filename(f.filename)
+api.add_resource(FileHandler, '/submit', endpoint='submit')
 
-        f.save(app.config['UPLOAD_FOLDER'] + filename)
-
-        file = open(app.config['UPLOAD_FOLDER'] + filename,"r")
-        content = file.read()
-        
-        
-    return render_template('content.html', content=content) 
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug = True)
