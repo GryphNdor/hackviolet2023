@@ -9,7 +9,7 @@ import shutil
 import glob
 
 # debug flag
-debug = True
+debug = False
 
 # clear directories
 shutil.rmtree('backend/output')
@@ -101,19 +101,37 @@ def findImage(index):
     cv2.rectangle(img_modi, (face[3], face[0]),(face[1], face[2]), (255,0,255), 1)
     if(debug):
         cv2.imshow('Fake'+str(index)+'.', test)
+    if(found):
+        cv2.imshow('Possible Deep Fake'+str(index)+'.', test)
+    return found
     cv2.waitKey
+    
 
 def runAnalysis():
+    truedict = []
     with open('backend/static/name.txt') as f:
         name = f.readline()
     moveImages(name)
     currentCount = 0
+    out = True
     for x in range(10):
         currentCount = verifyImages(x, currentCount)
+    file = open("truthtable.txt", "w")
     for y in range(currentCount):
-        findImage(y)
-    # wait on done
+        if(findImage(y)[0]):
+            file.write("true\n")
+        else:
+            file.write("false\n")
+    f.close()
+    # f = open("dict.txt", "w")
+    # f.write("{\n")
+    # for k in f.keys():
+    #     f.write("'{}':'{}'\n".format(k, f[k]))
+    # f.write("}")
+    # f.close()
     cv2.waitKey(0)
+    return truedict
+
     
 
 runAnalysis()
