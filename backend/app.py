@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS, cross_origin
 from flask_restful import Resource, Api, reqparse
 import werkzeug
@@ -26,9 +26,18 @@ class FileHandler(Resource):
         name = args['name']
         with open(os.path.join(app.config['UPLOAD_FOLDER'], 'name.txt'), 'w') as file:
             file.write(name)
+        
 
+        return jsonify({"response": "success"})
+
+    def get(self, path):
+        try:
+            return send_from_directory("./data", path, as_attachment=True)
+        except FileNotFoundError:
+            abort(404)
 
 api.add_resource(FileHandler, '/submit', endpoint='submit')
+api.add_resource(FileHandler, '/data', endpoint='data')
 
 
 if __name__ == '__main__':
