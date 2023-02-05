@@ -24,9 +24,10 @@ class FileHandler(Resource):
         parse.add_argument('name', type=str, location='form')
         args = parse.parse_args()
         image_file = args['file']
-        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'image.jpeg'))
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'image.jpg'))
         name = args['name']
-        subprocess.run(["./setup.sh",name])
+        with open(app.config["UPLOAD_FOLDER"]+"/name.txt", "w") as f:
+            f.write(name);
 
         return jsonify({"response": "success"})
 

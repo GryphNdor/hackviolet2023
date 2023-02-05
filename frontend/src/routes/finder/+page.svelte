@@ -57,7 +57,7 @@
         {/if}
       </div>
       <h1 class="documentID" />
-      <input id="upload" type="file" accept="image/jpg" />
+      <input id="upload" type="file" accept="image/jpeg" />
       <div class="textinput">
         <label for="textbox">Your Name</label>
         <input
