@@ -1,19 +1,21 @@
-<script lang="ts">
+<script lang="js">
   import FaCamera from "svelte-icons/fa/FaCamera.svelte";
   import FaCheckCircle from "svelte-icons/fa/FaCheckCircle.svelte";
   import { clicked } from "./clicked";
 
   let name = "";
 
-  let images: string[] = ["a", "b", "b", "a", "b", "b"];
+  let images = [];
 
   let uploaded = false;
 
   async function postData() {
     let data = new FormData();
     let input = document.querySelector('input[type="file"]');
-    data.append("file", input.files[0]);
-    data.append("name", name);
+    if (input) {
+      data.append("file", input.files[0]);
+      data.append("name", name);
+    }
     const res = await fetch("http://127.0.0.1:5000/submit", {
       method: "POST",
       mode: "cors",
@@ -28,6 +30,9 @@
   <title>Finder</title>
   <meta name="description" content="About this app" />
 </svelte:head>
+
+<div id="problem" />
+<div id="future" />
 
 <section id="title">
   <h1>Find My Face</h1>
@@ -52,12 +57,7 @@
         {/if}
       </div>
       <h1 class="documentID" />
-      <input
-        on:change={(e) => (image = e.currentTarget.files)}
-        id="upload"
-        type="file"
-        accept="image/jpeg"
-      />
+      <input id="upload" type="file" accept="image/jpg" />
       <div class="textinput">
         <label for="textbox">Your Name</label>
         <input

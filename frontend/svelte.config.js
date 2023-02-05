@@ -9,7 +9,9 @@ const config = {
 
 	kit: {
 		adapter: adapter()
-	}
+	},
+	handleMissingId: 'ignore'
+
 };
 
 export default config;
