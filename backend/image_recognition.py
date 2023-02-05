@@ -59,12 +59,12 @@ def verifyImages(index,currentCount):
     return currentCount
 
 # load real image
-img_bgr = face_recognition.load_image_file('backend/static/neps2.jpg')
+img_bgr = face_recognition.load_image_file('backend/static/image.jpeg')
 img_rgb = cv2.cvtColor(img_bgr,cv2.COLOR_BGR2RGB)
 cv2.waitKey
 
 # color map
-img_modi=face_recognition.load_image_file('backend/static/neps2.jpg')
+img_modi=face_recognition.load_image_file('backend/static/image.jpeg')
 img_modi_rgb = cv2.cvtColor(img_modi,cv2.COLOR_BGR2RGB)
 
 # detect face
@@ -77,7 +77,7 @@ if(debug):
 cv2.waitKey
 # load face to compare
 
-img_modi = face_recognition.load_image_file('backend/static/neps2.jpg')
+img_modi = face_recognition.load_image_file('backend/static/image.jpeg')
 img_modi = cv2.cvtColor(img_modi,cv2.COLOR_BGR2RGB)
 
 # find vectors
@@ -106,7 +106,9 @@ def findImage(index):
     cv2.waitKey
 
 def runAnalysis():
-    moveImages('Brian+Lee')
+    with open('backend/static/name.txt') as f:
+        name = f.readline()
+    moveImages(name)
     currentCount = 0
     for x in range(1,20):
         currentCount = verifyImages(x, currentCount)
@@ -114,6 +116,7 @@ def runAnalysis():
         findImage(y)
     # wait on done
     cv2.waitKey(0)
+
     
 
 runAnalysis()
