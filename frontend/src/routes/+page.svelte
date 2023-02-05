@@ -8,6 +8,10 @@
 		const data = await res.json();
 		results = data.results;
 	});
+
+	import logo from "$lib/images/logo.svg";
+
+	import tomas from "$lib/images/tomas.jpg";
 </script>
 
 <svelte:head>
@@ -19,16 +23,12 @@
 	<div class="text">
 		<h1 class="title"><span class="text-shadow">face.report</span></h1>
 		<h2>Search the web for unwanted photographs</h2>
-		<button>Find Your Face</button>
+		<button>
+			<a href="/finder"> Find Your Face </a>
+		</button>
 	</div>
-	<div>
-		<iframe
-			title="thing"
-			src="https://giphy.com/embed/mcsPU3SkKrYDdW3aAU"
-			width="300"
-			height="300"
-			frameBorder="0"
-		/>
+	<div class="avatar">
+		<img src={logo} alt="logo" width="300" height="300" />
 	</div>
 </section>
 
@@ -48,14 +48,18 @@
 </section>
 
 <section id="problem">
-	<h1>The Problem</h1>
-	<p>
-		In today's technological landscape, it is not unlikely of to find unwanted
-		pictures of oneself online. With the prevelance of social media as well the
-		advacements of deepfake technology, malicious parties can fake images of
-		anybody. This creates an especially hostile environment for women, who often
-		find themselves as the target of this new digital harrasment. this is a test
-	</p>
+	<div>
+		<h1>The Problem</h1>
+		<p>
+			In today's technological landscape, it is not unlikely of to find unwanted
+			pictures of oneself online. With the prevelance of social media as well
+			the improvements of deepfake technology, malicious parties can fake images
+			of anybody. This technology is often abused to humiliate and intimidate
+			women. As the technology becomes more accurate and accessible, the issue
+			only grows, requiring a soluton.
+		</p>
+	</div>
+	<img src={tomas} alt="tom" width="300" height="300" />
 </section>
 
 <section id="protect">
@@ -92,8 +96,13 @@
 
 <section id="future">
 	<h1><center>The future of privacy is in your hands</center></h1>
-	<h2><center>Keep the web free of invasive pictures</center></h2>
-	<button>Find Your Face</button>
+	<h2>
+		<center
+			>Using image scraping and facial recognition, find yourself on the web,
+			and look for malicious images
+		</center>
+	</h2>
+	<button><a href="/finder">Find Your Face</a></button>
 </section>
 
 <style lang="scss">
@@ -162,15 +171,9 @@
 			height: 100px;
 			width: 100px;
 			animation-name: scrollSideways;
-			animation-duration: 15s;
-			animation-iteration-count: infinite;
-			animation-timing-function: linear;
-		}
-		.medium {
-			height: 100px;
-			width: 100px;
-			animation-name: scrollSideways;
-			animation-duration: 20s;
+			animation-duration: 10s;
+			animation-direction: alternate;
+			animation-fill-mode: forwards;
 			animation-iteration-count: infinite;
 			animation-timing-function: linear;
 		}
@@ -178,27 +181,21 @@
 		.fast {
 			height: 150px;
 			width: 150px;
-			animation-name: scrollOtherSideways;
-			animation-duration: 8s;
+			animation-name: scrollSideways;
+			animation-delay: 0;
+			animation-duration: 10s;
+			animation-fill-mode: forwards;
+			animation-direction: alternate-reverse;
 			animation-iteration-count: infinite;
 			animation-timing-function: linear;
 		}
 	}
 	@keyframes scrollSideways {
-		0% {
+		from {
 			transform: translateX(0);
 		}
-		100% {
+		to {
 			transform: translateX(100vw);
-		}
-	}
-
-	@keyframes scrollOtherSideways {
-		0% {
-			transform: translateX(0);
-		}
-		100% {
-			transform: translateX(-100vw);
 		}
 	}
 
@@ -231,6 +228,23 @@
 		height: 3rem;
 		list-style: none;
 		color: var(--color-bg-1);
+	}
+
+	@keyframes float {
+		0% {
+			transform: translatey(15px);
+		}
+		50% {
+			transform: translatey(-15px);
+		}
+		100% {
+			transform: translatey(15px);
+		}
+	}
+
+	.avatar {
+		transform: translatey(0px);
+		animation: float 6s ease-in-out infinite;
 	}
 
 	$item-count: 3;

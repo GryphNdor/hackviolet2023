@@ -4,10 +4,12 @@
 <header>
 	<nav>
 		<div class="container">
-			<h3 class="title">face.report</h3>
+			<a href="/">
+				<h3 class="title">face.report</h3>
+			</a>
 			<div class="menu">
-				<a href="/">problem</a>
-				<a href="/">solution</a>
+				<a href="#problem">problem</a>
+				<a href="#future">solution</a>
 			</div>
 		</div>
 	</nav>
@@ -26,9 +28,9 @@
 		top: 0;
 		left: 0;
 		right: 0;
-		z-index: 99;
+		z-index: 66;
 		margin-bottom: -56px;
-		padding: 8px 28px;
+		padding: 8px 26px;
 	}
 
 	a {
@@ -42,6 +44,7 @@
 
 	.title {
 		color: white;
-		font-size: 28px;
+		font-size: 36px;
+		cursor: pointer;
 	}
 </style>
