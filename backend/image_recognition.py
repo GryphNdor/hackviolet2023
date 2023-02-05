@@ -57,7 +57,7 @@ def imagedown(url, folder):
     return newCount 
 
 #example function call 
-imageCount = imagedown("https://www.britannica.com/biography/Taylor-Swift", 'output')
+imageCount = imagedown("https://ece.vt.edu/people/profile/kekatos.html", 'output')
 
 # load real image
 img_bgr = face_recognition.load_image_file('backend/static/neps2.jpg')
